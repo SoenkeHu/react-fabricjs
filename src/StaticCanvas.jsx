@@ -19,6 +19,8 @@ export default class StaticCanvas extends React.Component {
 		observable(this);
 
 		//Static Canvas
+		this.changeSelection = (selection) =>
+            this.state.canvas.selection = selection;
 		this.absolutePan = (point) => this.state.canvas &&
 			this.state.canvas.absolutePan(point);
 		this.bringForward = (object, intersecting) => this.state.canvas &&
@@ -146,6 +148,10 @@ export default class StaticCanvas extends React.Component {
 		this.ref = {};
 
 		/* Options Changed */
+        if (diff(this.props.selection, nextProps.selection)) {
+            this.changeSelection(nextProps.selection);
+        }
+
 		if (diff(this.props.backgroundColor, nextProps.backgroundColor)) {
 			this.setBackgroundColor(nextProps.backgroundColor);
 		}
@@ -436,7 +442,6 @@ export default class StaticCanvas extends React.Component {
 		return (
 			<div>
 				<canvas id={id} width={this.props.width} height={this.props.height}/>
-
 				<div>
 					{
 						this.state.canvas &&
@@ -452,7 +457,6 @@ export default class StaticCanvas extends React.Component {
 						)
 					}
 				</div>
-
 			</div>
 		);
 
