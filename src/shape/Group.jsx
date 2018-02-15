@@ -1,8 +1,8 @@
 'use strict';
 
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 import FabricObject from '../base/Object.jsx';
-import {fabric} from 'fabric-webpack';
+import {fabric} from 'fabric';
 
 export default class Group extends FabricObject {
 	constructor(props, context) {
@@ -51,8 +51,8 @@ export default class Group extends FabricObject {
 Group.fromObject = (object) => fabric.Group.fromObject(object);
 Group.async = true;
 
-Group.propTypes = FabricObject.propTypes;
-Group.defaultProps = Object.assign(FabricObject.defaultProps, {
+Group.propTypes = Object.assign({}, FabricObject.propTypes);
+Group.defaultProps = Object.assign({}, FabricObject.defaultProps, {
 	strokeWidth: 0,
 	type: 'group',
 });

@@ -1,8 +1,8 @@
 'use strict';
 
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 import Path from './Path';
-import {fabric} from 'fabric-webpack';
+import {fabric} from 'fabric';
 
 export default class PathGroup extends Path {
 	constructor(props, context) {
@@ -65,7 +65,7 @@ PathGroup.fromElement = (element, callback, options) => fabric.PathGroup.fromEle
 PathGroup.fromObject = (object, callback) => fabric.PathGroup.fromObject(object, callback);
 PathGroup.attribute = fabric.PathGroup.ATTRIBUTE_NAMES;
 
-PathGroup.defaultProps = Object.assign(Path.defaultProps, {
+PathGroup.defaultProps = Object.assign({}, Path.defaultProps, {
 	type: 'path-group',
 	fill: '',
 });

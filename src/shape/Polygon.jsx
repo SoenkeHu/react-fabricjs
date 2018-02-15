@@ -1,8 +1,8 @@
 'use strict';
 
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 import FabricObject from '../base/Object.jsx';
-import {fabric} from 'fabric-webpack';
+import {fabric} from 'fabric';
 
 export default class Polygon extends FabricObject {
 	constructor(props, context) {
@@ -31,7 +31,7 @@ export default class Polygon extends FabricObject {
 		} else if (this.props.object instanceof Object) {
 			object = fabric.Polygon.fromObject(this.props.object);
 		} else {
-			object = new fabric.Polygon(this.props);
+			object = new fabric.Polygon(this.props.points, this.props);
 		}
 		super.draw(object, cb);
 	}
@@ -41,13 +41,13 @@ Polygon.fromElement = (element, options) => fabric.Polygon.fromElement(element, 
 Polygon.fromObject = (object) => fabric.Polygon.fromObject(object);
 Polygon.attribute = fabric.Polygon.ATTRIBUTE_NAMES;
 
-Polygon.propTypes = Object.assign(FabricObject.propTypes, {
+Polygon.propTypes = Object.assign({}, FabricObject.propTypes, {
 	points: PropTypes.array,
 	minX: PropTypes.number,
 	minY: PropTypes.number,
 });
 
-Polygon.defaultProps = Object.assign(FabricObject.defaultProps, {
+Polygon.defaultProps = Object.assign({}, FabricObject.defaultProps, {
 	type: 'polygon',
 	points: null,
 	minX: 0,

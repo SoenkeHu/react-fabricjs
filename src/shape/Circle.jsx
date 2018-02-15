@@ -1,8 +1,9 @@
 'use strict';
 
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import FabricObject from '../base/Object.jsx';
-import {fabric} from 'fabric-webpack';
+import {fabric} from 'fabric';
 const PI = Math.PI;
 
 export default class Circle extends FabricObject {
@@ -41,24 +42,19 @@ export default class Circle extends FabricObject {
 
 		super.draw(object, cb);
 	}
-
-	render() {
-		return <div />;
-	}
-
 }
 
 Circle.fromElement = (element, options) => fabric.Circle.fromElement(element, options);
 Circle.fromObject = (object) => fabric.Circle.fromObject(object);
 Circle.attribute = fabric.Circle.ATTRIBUTE_NAMES;
 
-Circle.propTypes = Object.assign(FabricObject.propTypes, {
+Circle.propTypes = Object.assign({}, FabricObject.propTypes, {
 	endAngle: PropTypes.number,
 	radius: PropTypes.number,
 	startAngle: PropTypes.number,
 });
 
-Circle.defaultProps = Object.assign(FabricObject.defaultProps, {
+Circle.defaultProps = Object.assign({}, FabricObject.defaultProps, {
 	endAngle: 2 * PI,
 	radius: 0,
 	startAngle: 0,

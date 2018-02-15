@@ -1,7 +1,8 @@
 'use strict';
 
-import React, { PropTypes } from 'react';
-import {fabric} from 'fabric-webpack';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {fabric} from 'fabric';
 import diff from 'deep-diff';
 import observable from '../mixin/observable.js';
 
@@ -227,7 +228,6 @@ export default class FabricObject extends React.Component {
 	draw(object, cb) {
 		this.setState({object}, () => {
 			cb && cb(object);
-			// canvas.add(object);
 			this.initEvent();
 		});
 	}
@@ -245,6 +245,9 @@ export default class FabricObject extends React.Component {
 		if (this.props.onSelected instanceof Function) {
 			object.on('selected', this.props.onSelected);
 		}
+        if (this.props.onDeSelected instanceof Function) {
+            object.on('deselected', this.props.onDeSelected);
+        }
 		if (this.props.onModified instanceof Function) {
 			object.on('modified', this.props.onModified);
 		}
@@ -257,13 +260,27 @@ export default class FabricObject extends React.Component {
 		if (this.props.onMoving instanceof Function) {
 			object.on('moving', this.props.onMoving);
 		}
+        if (this.props.onSkewing instanceof Function) {
+            object.on('skewing', this.props.onSkewing);
+        }
 		if (this.props.onMousedown instanceof Function) {
 			object.on('mousedown', this.props.onMousedown);
 		}
 		if (this.props.onMouseup instanceof Function) {
 			object.on('mouseup', this.props.onMouseup);
 		}
-
+        if (this.props.onMouseover instanceof Function) {
+            object.on('mouseover', this.props.onMouseover);
+        }
+        if (this.props.onMouseout instanceof Function) {
+            object.on('mouseout', this.props.onMouseout);
+        }
+        if (this.props.onMousewheel instanceof Function) {
+            object.on('mousewheel', this.props.onMousewheel);
+        }
+        if (this.props.onMousedbclick instanceof Function) {
+            object.on('mousedbclick', this.props.onMousedbclick);
+        }
 	}
 
 	eventChanged(nextProps) {
@@ -273,56 +290,108 @@ export default class FabricObject extends React.Component {
 		if (this.props.onAdded && !nextProps.onAdded) {
 			object.off('added');
 		} else if (nextProps.onAdded instanceof Function) {
-			object.on('added', this.props.onAdded);
+            object.off('added');
+            object.on('added', this.props.onAdded);
 		}
 
 		if (this.props.onRemoved && !nextProps.onRemoved) {
 			object.off('removed');
 		} else if (nextProps.onRemoved instanceof Function) {
-			object.on('removed', this.props.onRemoved);
+            object.off('removed');
+            object.on('removed', this.props.onRemoved);
 		}
 
 		if (this.props.onSelected && !nextProps.onSelected) {
 			object.off('selected');
 		} else if (nextProps.onSelected instanceof Function) {
-			object.on('selected', this.props.onSelected);
+            object.off('selected');
+            object.on('selected', this.props.onSelected);
 		}
+
+        if (this.props.onDeSelected && !nextProps.onDeSelected) {
+            object.off('deselected');
+        } else if (nextProps.onDeSelected instanceof Function) {
+            object.off('deselected');
+            object.on('deselected', this.props.onDeSelected);
+        }
 
 		if (this.props.onModified && !nextProps.onModified) {
 			object.off('modified');
 		} else if (nextProps.onModified instanceof Function) {
-			object.on('modified', this.props.onModified);
+            object.off('modified');
+            object.on('modified', this.props.onModified);
 		}
 
 		if (this.props.onRotating && !nextProps.onRotating) {
 			object.off('rotating');
 		} else if (nextProps.onRotating instanceof Function) {
-			object.on('rotating', this.props.onRotating);
+            object.off('rotating');
+            object.on('rotating', this.props.onRotating);
 		}
 
 		if (this.props.onScaling && !nextProps.onScaling) {
 			object.off('scaling');
 		} else if (nextProps.onScaling instanceof Function) {
-			object.on('scaling', this.props.onScaling);
+            object.off('scaling');
+            object.on('scaling', this.props.onScaling);
 		}
 
 		if (this.props.onMoving && !nextProps.onMoving) {
 			object.off('moving');
 		} else if (nextProps.onMoving instanceof Function) {
-			object.on('moving', this.props.onMoving);
+            object.off('moving');
+            object.on('moving', this.props.onMoving);
 		}
+
+        if (this.props.onSkewing && !nextProps.onSkewing) {
+            object.off('skewing');
+        } else if (nextProps.onSkewing instanceof Function) {
+            object.off('skewing');
+            object.on('skewing', this.props.onSkewing);
+        }
 
 		if (this.props.onMousedown && !nextProps.onMousedown) {
 			object.off('mousedown');
 		} else if (nextProps.onMousedown instanceof Function) {
-			object.on('mousedown', this.props.onMousedown);
+            object.off('mousedown');
+            object.on('mousedown', this.props.onMousedown);
 		}
 
 		if (this.props.onMouseup && !nextProps.onMouseup) {
 			object.off('mouseup');
 		} else if (nextProps.onMouseup instanceof Function) {
-			object.on('mouseup', this.props.onMouseup);
+            object.off('mouseup');
+            object.on('mouseup', this.props.onMouseup);
 		}
+
+        if (this.props.onMouseover && !nextProps.onMouseover) {
+            object.off('mouseover');
+        } else if (nextProps.onMouseover instanceof Function) {
+            object.off('mouseover');
+            object.on('mouseover', this.props.onMouseover);
+        }
+
+        if (this.props.onMouseout && !nextProps.onMouseout) {
+            object.off('mouseout');
+        } else if (nextProps.onMouseout instanceof Function) {
+            object.off('mouseout');
+            object.on('mouseout', this.props.onMouseout);
+        }
+
+        if (this.props.onMousewheel && !nextProps.onMousewheel) {
+            object.off('mousewheel');
+        } else if (nextProps.onMousewheel instanceof Function) {
+            object.off('mousewheel');
+            object.on('mousewheel', this.props.onMousewheel);
+        }
+
+        if (this.props.onMousedbclick && !nextProps.onMousedbclick) {
+            object.off('mousedbclick');
+        } else if (nextProps.onMousedbclick instanceof Function) {
+            object.off('mousedbclick');
+            object.on('mousedbclick', this.props.onMousedbclick);
+        }
+
 	}
 
 	render() {
@@ -376,7 +445,7 @@ FabricObject.propTypes = {
 	scaleX: PropTypes.number,
 	scaleY: PropTypes.number,
 	selectable: PropTypes.bool,
-	shadow: PropTypes.oneOfType([React.PropTypes.instanceOf(fabric.Shadow), PropTypes.string]),
+	shadow: PropTypes.oneOfType([PropTypes.instanceOf(fabric.Shadow), PropTypes.string]),
 	stateProperties: PropTypes.array,
 	stroke: PropTypes.string,
 	strokeDashArray: PropTypes.array,

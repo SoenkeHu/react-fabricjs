@@ -1,8 +1,8 @@
 'use strict';
 
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 import FabricObject from '../base/Object.jsx';
-import {fabric} from 'fabric-webpack';
+import {fabric} from 'fabric';
 
 export default class Line extends FabricObject {
 	constructor(props, context) {
@@ -30,7 +30,9 @@ export default class Line extends FabricObject {
 		} else if (this.props.object instanceof Object) {
 			object = fabric.Line.fromObject(this.props.object);
 		} else {
-			object = new fabric.Line(this.props);
+			const {x1, y1, x2, y2} = this.props;
+			const coords = [x1, y1, x2, y2];
+			object = new fabric.Line(coords, this.props);
 		}
 		super.draw(object, cb);
 	}
@@ -41,14 +43,14 @@ Line.fromElement = (element, options) => fabric.Line.fromElement(element, option
 Line.fromObject = (object) => fabric.Line.fromObject(object);
 Line.attribute = fabric.Line.ATTRIBUTE_NAMES;
 
-Line.propTypes = Object.assign(FabricObject.propTypes, {
+Line.propTypes = Object.assign({}, FabricObject.propTypes, {
 	x1: PropTypes.number,
 	y1: PropTypes.number,
 	x2: PropTypes.number,
 	y2: PropTypes.number,
 });
 
-Line.defaultProps = Object.assign(FabricObject.defaultProps, {
+Line.defaultProps = Object.assign({}, FabricObject.defaultProps, {
 	type: 'line',
 	x1: 0,
 	y1: 0,
